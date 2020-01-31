@@ -13,5 +13,5 @@ function truncate(str, maxlength) {
         ? str.length > maxlength
             ? str.substr(0, maxlength - 1) + "…"
             : str 
-        : "";
+        : ""; 
 }
