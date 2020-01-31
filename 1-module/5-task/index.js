@@ -14,5 +14,5 @@ function truncate(str, maxlength) {
             ? str.substr(0, maxlength - 1) + "…"
             : str 
         : "";
-
+/*asdasd*/
 }
