@@ -26,6 +26,53 @@ class Menu {
   `;
 
   constructor(element) {
+    element.insertAdjacentHTML('afterbegin', this.template);
+
+    for (let innerMenuItem of element.querySelectorAll('li.list-group-item')){
+      innerMenuItem.addEventListener('pointerenter', () => this._onPointerenter(event));
+      innerMenuItem.addEventListener('pointerleave', () => this._onPointerleave(event));      
+    } 
+    
+    for (let innerMenuItem of element.querySelectorAll('ul.dropdown-menu')){
+      innerMenuItem.addEventListener('click', () => this._onClick(event));      
+    } 
+
+    document.addEventListener('select', function(event){ alert(event.detail.id); });
+  }
+
+  _onClick(event){
+    event.preventDefault();
+    
+    let liElement = event.target.closest('li.dropdown-item');
+    liElement.dispatchEvent(new CustomEvent('select', {
+      bubbles: true,
+      cancelable: true,
+      detail: { id: liElement.dataset.id }
+    }));    
+  }
+
+  _onPointerenter(event){    
+    event.preventDefault();
+        
+    for (let innerMenuItem of event.target.querySelectorAll('li.list-group-item ul.dropdown-menu')){
+      innerMenuItem.classList.add('show');
+    }
+
+    for (let backdrop of document.querySelectorAll('.backdrop')){
+      backdrop.classList.add('show');
+    }
+  }
+
+  _onPointerleave(event){    
+    event.preventDefault();
+        
+    for (let innerMenuItem of event.target.querySelectorAll('li.list-group-item ul.dropdown-menu')){
+      innerMenuItem.classList.remove('show');
+    }
+
+    for (let backdrop of document.querySelectorAll('.backdrop')){
+      backdrop.classList.remove('show');
+    }
   }
 }
 
