@@ -33,17 +33,17 @@ class Menu {
       innerMenuItem.addEventListener('pointerleave', () => this._onPointerleave(event));      
     } 
     
-    for (let innerMenuItem of element.querySelectorAll('ul.dropdown-menu')){
-      innerMenuItem.addEventListener('click', () => this._onClick(event));      
-    } 
-
-    document.addEventListener('select', function(event){ alert(event.detail.id); });
+    element.addEventListener('click', () => this._onClick(event));          
   }
 
   _onClick(event){
+    let liElement = event.target.closest('li.dropdown-item');
+    if (!liElement){
+      return;
+    }
+
     event.preventDefault();
     
-    let liElement = event.target.closest('li.dropdown-item');
     liElement.dispatchEvent(new CustomEvent('select', {
       bubbles: true,
       cancelable: true,
